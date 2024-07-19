@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('animal_user', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('animal_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->unique(['animal_id', 'user_id']);
+
+            $table->foreign('animal_id')->references('id')->on('animals')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
