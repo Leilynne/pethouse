@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('animals', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->unsignedInteger('age');
+            $table->date('birthday')->nullable();
             $table->string('type', 10);
             $table->string('health', 100);
             $table->string('description', 1000);
             $table->string('animal_status', 100);
-            $table->unsignedBigInteger('user_id');
-            $table->string('comment', 255);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('comment', 255)->nullable();
             $table->string('sex', 6);
             $table->unsignedInteger('color_id');
             $table->timestamps();

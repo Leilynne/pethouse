@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->ulid('file_name', 100)->unique();
+            $table->string('file_name', 100)->unique();
             $table->unsignedBigInteger('animal_id');
             $table->boolean('primary')->default(false);
             $table->timestamps();
