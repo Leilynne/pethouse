@@ -14,7 +14,7 @@ class UpdateTagRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,7 @@ class UpdateTagRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'min:2'],
+            'name' => ['required', 'string', 'max:255', 'min:2', 'unique:tags,name'],
         ];
     }
 }
