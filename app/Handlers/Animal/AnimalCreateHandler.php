@@ -18,6 +18,7 @@ readonly class AnimalCreateHandler
     {
         /* @var Animal $animal */
         $animal = Animal::create($data);
+        $animal->tags()->attach($data['tags']);
 
         /* @var UploadedFile $file */
         $file = $data['preview'];

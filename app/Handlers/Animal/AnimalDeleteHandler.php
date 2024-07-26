@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Handlers\Animal;
 
+use App\Exceptions\AnimalNotFoundException;
 use App\Repositories\AnimalRepository;
+use Illuminate\Support\Facades\Storage;
 
 readonly class AnimalDeleteHandler
 {
@@ -13,9 +15,17 @@ readonly class AnimalDeleteHandler
     ) {
     }
 
+    /**
+     * @throws AnimalNotFoundException
+     */
     public function handle(int $animalId): void
     {
         $animal = $this->animalRepository->getAnimalById($animalId);
+        $album = $animal->album;
         $animal->delete();
+
+        foreach ($album as $item) {
+            Storage::delete('animals/' . $item->file_name);
+        }
     }
 }

@@ -7,8 +7,12 @@ use App\Enums\AnimalSex;
 use App\Enums\AnimalStatus;
 use App\Enums\AnimalType;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\ValidationException;
 
 class UpdateAnimalRequest extends FormRequest
 {
@@ -17,7 +21,7 @@ class UpdateAnimalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,15 +32,35 @@ class UpdateAnimalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string' , 'max:100', 'min:1'],
+            'name' => ['required', 'string', 'max:100'],
             'birthday' => ['date'],
             'sex' => ['required', Rule::enum(AnimalSex::class)],
             'type' => ['required', Rule::enum(AnimalType::class)],
             'health' => ['required', Rule::enum(AnimalHealth::class)],
             'animal_status' => ['required', Rule::enum(AnimalStatus::class)],
-            'color_id' => ['exists:App/Models/Color,id'],
-            'user_id' => ['exists:App/Models/User,id'],
+            'color_id' => ['required', 'exists:colors,id'],
+            'user_id' => ['exists:users,id'],
             'comment' => ['string', 'max:255', 'min:1'],
+            'description' => ['required', 'string', 'max:1000', 'min:1'],
+            'preview' => [File::types(['jpg', 'jpeg', 'png'])->max('2mb')],
+            'tags' => ['array'],
+            'tags.*' => ['exists:tags,id'],
         ];
+    }
+
+    /**
+     * Customize the response returned when validation fails.
+     *
+     * @throws ValidationException
+     */
+    protected function failedValidation(Validator $validator): JsonResponse
+    {
+        throw new ValidationException(
+            $validator,
+            response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422)
+        );
     }
 }

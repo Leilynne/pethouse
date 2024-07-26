@@ -9,10 +9,11 @@ use App\Handlers\Animal\AnimalCreateHandler;
 use App\Handlers\Animal\AnimalDeleteHandler;
 use App\Handlers\Animal\AnimalGetAllHandler;
 use App\Handlers\Animal\AnimalShowHandler;
+use App\Handlers\Animal\AnimalUpdateHandler;
 use App\Http\Requests\Animal\CreateAnimalRequest;
+use App\Http\Requests\Animal\UpdateAnimalRequest;
 use App\Http\Resources\AnimalResource;
 use App\Http\Resources\SuccessResponseResource;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 readonly class AnimalController
@@ -21,7 +22,8 @@ readonly class AnimalController
         private AnimalCreateHandler $animalCreateHandler,
         private AnimalGetAllHandler $animalGetAllHandler,
         private AnimalDeleteHandler $animalDeleteHandler,
-        private AnimalShowHandler  $animalShowHandler,
+        private AnimalShowHandler $animalShowHandler,
+        private AnimalUpdateHandler $animalUpdateHandler,
     ) {
     }
 
@@ -58,14 +60,18 @@ readonly class AnimalController
 
     /**
      * Update the specified resource in storage.
+     * @throws AnimalNotFoundException
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateAnimalRequest $request, int $animalId): AnimalResource
     {
-        //
+        $animal = $this->animalUpdateHandler->handle($request->validated(), $animalId);
+
+        return new AnimalResource($animal);
     }
 
     /**
      * Remove the specified resource from storage.
+     * @throws AnimalNotFoundException
      */
     public function destroy(int $animalId): SuccessResponseResource
     {

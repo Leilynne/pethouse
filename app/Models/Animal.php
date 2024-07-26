@@ -8,6 +8,7 @@ use App\Enums\AnimalHealth;
 use App\Enums\AnimalSex;
 use App\Enums\AnimalStatus;
 use App\Enums\AnimalType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,30 +34,31 @@ use Illuminate\Support\Carbon;
  * @property int $color_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Animal newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Animal newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Animal query()
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereAge($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereAnimalStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereColorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereHealth($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereSex($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereUserId($value)
+ * @method static Builder|Animal newModelQuery()
+ * @method static Builder|Animal newQuery()
+ * @method static Builder|Animal query()
+ * @method static Builder|Animal whereAge($value)
+ * @method static Builder|Animal whereAnimalStatus($value)
+ * @method static Builder|Animal whereColorId($value)
+ * @method static Builder|Animal whereComment($value)
+ * @method static Builder|Animal whereCreatedAt($value)
+ * @method static Builder|Animal whereDescription($value)
+ * @method static Builder|Animal whereHealth($value)
+ * @method static Builder|Animal whereId($value)
+ * @method static Builder|Animal whereName($value)
+ * @method static Builder|Animal whereSex($value)
+ * @method static Builder|Animal whereType($value)
+ * @method static Builder|Animal whereUpdatedAt($value)
+ * @method static Builder|Animal whereUserId($value)
  * @property-read Color|null $color
  * @property-read Media|null $preview
  * @property-read Collection<int, Tag> $tags
+ * @property-read Collection<int, Media> $album
  * @property-read int|null $tags_count
  * @property-read Collection<int, User> $curators
  * @property-read Collection<int, Media> $photos
  * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder|Animal whereBirthday($value)
+ * @method static Builder|Animal whereBirthday($value)
  * @mixin \Eloquent
  */
 class Animal extends Model
@@ -67,6 +69,7 @@ class Animal extends Model
         'name',
         'age',
         'type',
+        'birthday',
         'health',
         'description',
         'animal_status',
@@ -83,7 +86,7 @@ class Animal extends Model
             'health' => AnimalHealth::class,
             'animal_status' => AnimalStatus::class,
             'sex' => AnimalSex::class,
-            'birthday' => 'datetime',
+            'birthday' => 'date',
         ];
     }
 
@@ -115,5 +118,10 @@ class Animal extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function album(): HasMany
+    {
+        return $this->hasMany(Media::class);
     }
 }

@@ -43,6 +43,8 @@ class CreateAnimalRequest extends FormRequest
             'comment' => ['string', 'max:255', 'min:1'],
             'description' => ['required', 'string', 'max:1000', 'min:1'],
             'preview' => ['required', File::types(['jpg', 'jpeg', 'png'])->max('2mb')],
+            'tags' => ['array'],
+            'tags.*' => ['exists:tags,id'],
         ];
     }
 
