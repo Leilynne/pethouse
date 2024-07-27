@@ -33,9 +33,9 @@ readonly class AnimalUpdateHandler
 
             $ulid = new Ulid();
             $filename = $ulid->toString() . '.' . $file->extension();
-            $file->storeAs('animals', $filename);
+            \Storage::disk('public')->putFileAs('animals', $file, $filename);
 
-            \Storage::delete('animals/' . $animal->preview->file_name);
+            \Storage::disk('public')->delete('animals/' . $animal->preview->file_name);
 
             $animal->preview->update([
                 'file_name' => $filename,

@@ -25,7 +25,7 @@ readonly class AnimalDeleteHandler
         $animal->delete();
 
         foreach ($album as $item) {
-            Storage::delete('animals/' . $item->file_name);
+            Storage::disk('public')->delete('animals/' . $item->file_name);
         }
     }
 }

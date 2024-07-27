@@ -25,7 +25,7 @@ readonly class AnimalCreateHandler
 
         $ulid = new Ulid();
         $filename = $ulid->toString() . '.' . $file->extension();
-        $file->storeAs('animals', $filename);
+        \Storage::disk('public')->putFileAs('animals', $file, $filename);
 
         Media::create([
             'file_name' => $filename,

@@ -3,13 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\Media;
-use Illuminate\Database\Eloquent\Collection;
 
 interface MediaRepositoryInterface
 {
     /**
-     * @param $animal_id
-     * @return Collection<int, Media>
+     * @param int $id
+     * @return Media
      */
-    public function getAllMediaByAnimal($animal_id): Collection;
+    public function getMediaById(int $id): Media;
 }

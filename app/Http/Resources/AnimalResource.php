@@ -30,9 +30,9 @@ class AnimalResource extends JsonResource
             'sex'=> $this->sex,
             'color' => new ColorResource($this->color),
             'birthday' => $this->birthday,
-            'preview' => $this->preview?->file_name,
+            'preview' => new MediaResource($this->preview),
             'tags' => TagResource::collection($this->tags),
-            'photos' => $this->photos->pluck('file_name')->toArray(),
+            'photos' => MediaResource::collection($this->photos),
         ];
     }
 }

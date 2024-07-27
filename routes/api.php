@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnimalController\AnimalController;
 use App\Http\Controllers\ColorController\ColorController;
+use App\Http\Controllers\MediaController\MediaController;
 use App\Http\Controllers\TagController\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,6 +14,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::resource('/animals', AnimalController::class)->except(['create', 'edit']);
 Route::resource('/colors', ColorController::class)->except(['create', 'edit']);
 Route::resource('/tags', TagController::class)->except(['create', 'edit']);
+Route::resource('/media', MediaController::class)->only(['destroy', 'store']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
