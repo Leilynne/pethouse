@@ -8,6 +8,7 @@ use App\Enums\AnimalHealth;
 use App\Enums\AnimalSex;
 use App\Enums\AnimalStatus;
 use App\Enums\AnimalType;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,7 +60,11 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Media> $photos
  * @property-read int|null $users_count
  * @method static Builder|Animal whereBirthday($value)
- * @mixin \Eloquent
+ * @property-read int|null $album_count
+ * @property-read int|null $curators_count
+ * @property-read User|null $owner
+ * @property-read int|null $photos_count
+ * @mixin Eloquent
  */
 class Animal extends Model
 {

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SuccessResponseResource extends JsonResource
+class UnsuccessfulResponseResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +17,8 @@ class SuccessResponseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'success' => true,
-            'message' => $this->resource['message']
+            'success' => false,
+            'message' => $this->resource
         ];
     }
 }

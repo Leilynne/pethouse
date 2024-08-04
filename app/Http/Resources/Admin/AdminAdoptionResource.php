@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin;
 
-use App\Models\User;
+use App\Models\AdoptionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin User
+ * @mixin AdoptionRequest
  */
-class UserResource extends JsonResource
+class AdminAdoptionResource extends JsonResource
 {
-    public function __construct(User $resource)
-    {
-        parent::__construct($resource);
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -27,11 +22,9 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'role' => $this->role,
-            'phone' => $this->phone,
-            'text' => $this->text,
+            'user_id' => $this->user_id,
+            'animal_id' => $this->animal_id,
+            'status' => $this->status,
         ];
     }
 }

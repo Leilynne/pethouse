@@ -10,14 +10,6 @@ use Illuminate\Validation\Rule;
 class CreateAdoptionRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array|string>
@@ -25,8 +17,8 @@ class CreateAdoptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'animal_id' => ['exists:App/Models/Animal,id'],
-            'user_id' => ['exists:App/Models/User,id'],
+            'animal_id' => ['exists:animals,id'],
+            'user_id' => ['exists:users,id'],
             'status' => [Rule::enum(AdoptionStatus::class)],
         ];
     }

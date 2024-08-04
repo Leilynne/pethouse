@@ -9,7 +9,7 @@ use App\Handlers\Media\MediaCreateHandler;
 use App\Handlers\Media\MediaDeleteHandler;
 use App\Http\Requests\Media\CreateMediaRequest;
 use App\Http\Resources\MediaResource;
-use App\Http\Resources\SuccessResponseResource;
+use App\Http\Resources\SuccessfulResponseResource;
 
 readonly class MediaController
 {
@@ -19,11 +19,11 @@ readonly class MediaController
     ){
     }
 
-    public function destroy(int $mediaId): SuccessResponseResource
+    public function destroy(int $mediaId): SuccessfulResponseResource
     {
         $this->mediaDeleteHandler->handle($mediaId);
 
-        return new SuccessResponseResource(['message' => "Media $mediaId deleted successfully"]);
+        return new SuccessfulResponseResource("Media $mediaId deleted successfully");
     }
 
     public function store(CreateMediaRequest $request): MediaResource

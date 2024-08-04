@@ -12,7 +12,7 @@ use App\Handlers\Tags\TagShowHandler;
 use App\Handlers\Tags\TagUpdateHandler;
 use App\Http\Requests\Tag\CreateTagRequest;
 use App\Http\Requests\Tag\UpdateTagRequest;
-use App\Http\Resources\SuccessResponseResource;
+use App\Http\Resources\SuccessfulResponseResource;
 use App\Http\Resources\TagResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -70,10 +70,10 @@ readonly class TagController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $tagId):SuccessResponseResource
+    public function destroy(int $tagId):SuccessfulResponseResource
     {
         $this->tagDeleteHandler->handle($tagId);
 
-        return new SuccessResponseResource(['message' => "Tag $tagId deleted successfully"]);
+        return new SuccessfulResponseResource("Tag $tagId deleted successfully");
     }
 }

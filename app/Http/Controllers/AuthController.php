@@ -4,47 +4,54 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use App\Exceptions\InvalidCredentialsException;
+use App\Handlers\Auth\UserLoginHandler;
+use App\Handlers\Auth\UserRegisterHandler;
+use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\LoginUserRequest;
+use App\Http\Requests\User\UserLogoutHandler;
+use App\Http\Resources\SuccessfulResponseResource;
+use App\Http\Resources\TokenResource;
+use App\Http\Resources\UnsuccessfulResponseResource;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
-class AuthController extends Controller
+readonly class AuthController
 {
-    public function register(Request $request): JsonResponse
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        $token = $user->createToken('api-token')->plainTextToken;
-
-        return response()->json(['token' => $token]);
+    public function __construct(
+        private UserLoginHandler $userLoginHandler,
+        private UserRegisterHandler $userRegisterHandler,
+        private UserLogoutHandler $userLogoutHandler,
+    ){
     }
 
-    public function login(Request $request): JsonResponse
+    public function register(CreateUserRequest $request): TokenResource
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $data =  $request->validated();
 
-        $user = User::where('email', $request->email)->first();
+        return new TokenResource($this->userRegisterHandler->handle($data));
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+    public function login(LoginUserRequest $request): TokenResource|UnsuccessfulResponseResource
+    {
+        $data = $request->validated();
+        try {
+            $resource = new TokenResource($this->userLoginHandler->handle($data));
+        } catch (InvalidCredentialsException) {
+            $resource = (new UnsuccessfulResponseResource('Invalid credentials'))
+                ->response()
+                ->setStatusCode(Response::HTTP_UNAUTHORIZED);
         }
 
-        $token = $user->createToken('api-token')->plainTextToken;
+        return $resource;
+    }
 
-        return response()->json(['token' => $token]);
+    public function logout(): SuccessfulResponseResource
+    {
+        $user = Auth::user();
+        $this->userLogoutHandler->handle($user);
+
+        return new SuccessfulResponseResource('Successfully logged out');
     }
 }

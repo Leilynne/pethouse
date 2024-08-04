@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Enums\UserRole;
 use App\Models\Animal;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +22,7 @@ class AnimalResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $response = [
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->type,
@@ -34,5 +36,13 @@ class AnimalResource extends JsonResource
             'tags' => TagResource::collection($this->tags),
             'photos' => MediaResource::collection($this->photos),
         ];
+
+        /** @var User|null $user */
+        $user = $request->user();
+        if (UserRole::Admin === $user?->role) {
+            $response['comment'] = $this->comment;
+        }
+
+        return $response;
     }
 }

@@ -25,7 +25,7 @@ readonly class AnimalUpdateHandler
     {
         $animal = $this->animalRepository->getAnimalById($animalId);
         $animal->update($data);
-        $animal->tags()->sync($data['tags']);
+        $animal->tags()->attach($data['tags'] ?? []);
 
         if (isset($data['preview'])) {
             /* @var UploadedFile $file */

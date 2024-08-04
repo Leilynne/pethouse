@@ -12,7 +12,7 @@ use App\Handlers\Color\ColorUpdateHandler;
 use App\Http\Requests\Color\CreateColorRequest;
 use App\Http\Requests\Color\UpdateColorRequest;
 use App\Http\Resources\ColorResource;
-use App\Http\Resources\SuccessResponseResource;
+use App\Http\Resources\SuccessfulResponseResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 readonly class ColorController
@@ -70,10 +70,10 @@ readonly class ColorController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $colorId): SuccessResponseResource
+    public function destroy(int $colorId): SuccessfulResponseResource
     {
         $this->colorDeleteHandler->handle($colorId);
 
-        return new SuccessResponseResource(['message' => "Color $colorId deleted successfully"]);
+        return new SuccessfulResponseResource("Color $colorId deleted successfully");
     }
 }

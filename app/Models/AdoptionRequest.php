@@ -8,6 +8,7 @@ use App\Enums\AdoptionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * 
@@ -16,10 +17,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_id
  * @property int $animal_id
  * @property mixed $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Animal|null $animals
- * @property-read \App\Models\User|null $users
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Animal|null $animals
+ * @property-read User|null $users
  * @method static \Illuminate\Database\Eloquent\Builder|AdoptionRequest newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdoptionRequest newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdoptionRequest query()
@@ -36,7 +37,10 @@ class AdoptionRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'status'
+        'status',
+        'animal_id',
+        'user_id',
+
     ];
 
     public function casts(): array
