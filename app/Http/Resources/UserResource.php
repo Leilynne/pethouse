@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Media;
+use App\Enums\UserRole;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 /**
- * @mixin Media
+ * @mixin User
  */
-class MediaResource extends JsonResource
+class UserResource extends JsonResource
 {
-    public function __construct(Media $resource)
+    public function __construct(User $resource)
     {
         parent::__construct($resource);
     }
@@ -27,8 +29,10 @@ class MediaResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'file_name' => $this->file_name,
-            'primary' => $this->primary,
+            'name' => $this->name,
+            'email' => $this->email,
+            'role' => $this->role,
+            'phone' => $this->phone,
         ];
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Enums\UserRole;
+use App\Http\Resources\Admin\UserAdminResource;
 use App\Models\Animal;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,6 +16,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class AnimalResource extends JsonResource
 {
+
+    public function __construct(Animal $resource)
+    {
+        parent::__construct($resource);
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -41,6 +48,7 @@ class AnimalResource extends JsonResource
         $user = $request->user();
         if (UserRole::Admin === $user?->role) {
             $response['comment'] = $this->comment;
+            $response['curators'] = UserAdminResource::collection($this->curators);
         }
 
         return $response;

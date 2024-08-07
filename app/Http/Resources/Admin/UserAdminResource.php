@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin User
  */
-class UserResource extends JsonResource
+class UserAdminResource extends JsonResource
 {
     public function __construct(User $resource)
     {
@@ -28,9 +28,6 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
-            'role' => $this->role,
-            'phone' => $this->phone,
             'text' => $this->text,
         ];
     }

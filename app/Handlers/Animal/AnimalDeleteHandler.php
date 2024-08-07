@@ -22,6 +22,7 @@ readonly class AnimalDeleteHandler
     {
         $animal = $this->animalRepository->getAnimalById($animalId);
         $album = $animal->album;
+        $animal->album()->delete();
         $animal->delete();
 
         foreach ($album as $item) {

@@ -14,11 +14,4 @@ interface PostRepositoryInterface
 
 
     public function getPostById(int $id): Post;
-
-
-    /**
-     * @param int $animal_id
-     * @return Collection<int, Post>
-     */
-    public function getPostByAnimalId(int $animal_id): Collection;
 }

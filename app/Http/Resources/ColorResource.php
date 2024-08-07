@@ -13,6 +13,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class ColorResource extends JsonResource
 {
+    public function __construct(Color $resource)
+    {
+        parent::__construct($resource);
+    }
+
     /**
      * Transform the resource into an array.
      *

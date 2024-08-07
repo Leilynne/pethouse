@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Media;
+use App\Models\AdoptionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Media
+ * @mixin AdoptionRequest
  */
-class MediaResource extends JsonResource
+class AdoptionRequestResource extends JsonResource
 {
-    public function __construct(Media $resource)
+
+    public function __construct(AdoptionRequest $resource)
     {
         parent::__construct($resource);
     }
@@ -27,8 +28,8 @@ class MediaResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'file_name' => $this->file_name,
-            'primary' => $this->primary,
+            'animal_id' => $this->animal_id,
+            'status' => $this->status,
         ];
     }
 }

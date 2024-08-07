@@ -13,6 +13,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class TagResource extends JsonResource
 {
+    public function __construct(Tag $resource)
+    {
+        parent::__construct($resource);
+    }
+
     /**
      * Transform the resource into an array.
      *

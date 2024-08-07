@@ -6,6 +6,7 @@ namespace App\Http\Requests\Post;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class UpdatePostRequest extends FormRequest
 {
@@ -17,8 +18,9 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'animal_id' => ['exists:App/Models/Animal,id'],
-            'text' => ['string', 'min:3', 'max:1000'],
+            'description' => ['required','string', 'min:3', 'max:1000'],
+            'title' => ['required', 'string', 'min:3', 'max:255'],
+            'preview' => ['required', File::types(['jpg', 'jpeg', 'png'])->max('2mb')],
         ];
     }
 }

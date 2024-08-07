@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('media', function (Blueprint $table) {
             $table->id();
             $table->string('file_name', 100)->unique();
-            $table->unsignedBigInteger('animal_id')->nullable();
+            $table->unsignedBigInteger('entity_id');
+            $table->string('entity_type', 50);
             $table->boolean('primary')->default(false);
             $table->timestamps();
-
-            $table->foreign('animal_id')->on('animals')->references('id')->cascadeOnDelete();
         });
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Handlers\Media;
 
+use App\Models\Animal;
 use App\Repositories\MediaRepository;
 
 readonly class MediaDeleteHandler
@@ -16,7 +17,12 @@ readonly class MediaDeleteHandler
     public function handle(int $mediaId): void
     {
         $photo = $this->mediaRepository->getMediaById($mediaId);
-        \Storage::disk('public')->delete('animals/'.$photo->file_name);
+        if ($photo->entity instanceof Animal) {
+            $folder = 'animals/';
+        } else {
+            $folder = 'posts/';
+        }
+        \Storage::disk('public')->delete($folder.$photo->file_name);
 
         $photo->delete();
     }

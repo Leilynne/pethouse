@@ -13,6 +13,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class AdminAdoptionResource extends JsonResource
 {
+    public function __construct(AdoptionRequest $resource)
+    {
+        parent::__construct($resource);
+    }
+
     /**
      * Transform the resource into an array.
      *

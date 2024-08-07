@@ -5,29 +5,37 @@ declare(strict_types=1);
 namespace App\Http\Controllers\ProfileController;
 
 use App\Exceptions\AnimalNotFoundException;
+use App\Exceptions\InvalidPetUpdateRequestException;
 use App\Handlers\Profile\CreateUserPetAnimalHandler;
 use App\Handlers\Profile\GetAllUserPetAnimalsHandler;
 use App\Handlers\Profile\GetProfileHandler;
 use App\Handlers\Profile\GetUserSupervisedAnimalHandler;
 use App\Handlers\Profile\UpdateProfileHandler;
 use App\Handlers\Profile\UpdateUserPetAnimalHandler;
+use App\Handlers\Profile\UserCancelAdoptionRequestHandler;
+use App\Handlers\Profile\UserCancellAdoptionRequestHandler;
+use App\Handlers\Profile\UserGetAdoptionRequestHandler;
+use App\Http\Requests\AdoptionRequest\UpdateAdoptionRequest;
 use App\Http\Requests\Animal\CreateUserPetAnimalRequest;
 use App\Http\Requests\Animal\UpdateUserPetAnimalRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-use App\Http\Resources\Admin\UserResource;
+use App\Http\Resources\AdoptionRequestResource;
 use App\Http\Resources\AnimalResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 readonly class ProfileController
 {
     public function __construct(
-        private GetProfileHandler $getProfileHandler,
-        private UpdateProfileHandler $updateProfileHandler,
-        private CreateUserPetAnimalHandler $createUserPetAnimalHandler,
-        private UpdateUserPetAnimalHandler $updateUserPetAnimalHandler,
-        private GetAllUserPetAnimalsHandler $allUserPetAnimalsHandler,
-        private GetUserSupervisedAnimalHandler $getUserSupervisedAnimalHandler,
+        private GetProfileHandler                 $getProfileHandler,
+        private UpdateProfileHandler              $updateProfileHandler,
+        private CreateUserPetAnimalHandler        $createUserPetAnimalHandler,
+        private UpdateUserPetAnimalHandler        $updateUserPetAnimalHandler,
+        private GetAllUserPetAnimalsHandler       $allUserPetAnimalsHandler,
+        private GetUserSupervisedAnimalHandler    $getUserSupervisedAnimalHandler,
+        private UserGetAdoptionRequestHandler     $userGetAdoptionRequestHandler,
+        private UserCancelAdoptionRequestHandler $userCancelAdoptionRequestHandler,
     ){
     }
 
@@ -52,6 +60,7 @@ readonly class ProfileController
 
     /**
      * @throws AnimalNotFoundException
+     * @throws InvalidPetUpdateRequestException
      */
     public function updateMyAnimal(UpdateUserPetAnimalRequest $request, int $animalId): AnimalResource
     {
@@ -69,6 +78,17 @@ readonly class ProfileController
     public function getAllMySupervisedAnimals(): AnonymousResourceCollection
     {
         return AnimalResource::collection($this->getUserSupervisedAnimalHandler->handle());
+    }
+
+    public function getUserAdoptionRequest(): AnonymousResourceCollection
+    {
+        $userId = Auth::user()->id;
+        return AdoptionRequestResource::collection($this->userGetAdoptionRequestHandler->handle($userId));
+    }
+
+    public function cancelAdoptionRequest(int $adoptionRequestId): AdoptionRequestResource
+    {
+        return new AdoptionRequestResource($this->userCancelAdoptionRequestHandler->handle($adoptionRequestId));
     }
 
 }

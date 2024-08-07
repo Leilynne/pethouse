@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -110,14 +110,14 @@ class Animal extends Model
         return $this->belongsTo(Color::class);
     }
 
-    public function preview(): HasOne
+    public function preview(): MorphOne
     {
-        return $this->hasOne(Media::class)->where(['primary' => true]);
+        return $this->morphOne(Media::class, 'entity')->where(['primary' => true]);
     }
 
-    public function photos(): HasMany
+    public function photos(): MorphMany
     {
-        return $this->hasMany(Media::class)->where(['primary' => false]);
+        return $this->morphMany(Media::class, 'entity')->where(['primary' => false]);
     }
 
     public function owner(): BelongsTo
@@ -125,8 +125,8 @@ class Animal extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function album(): HasMany
+    public function album(): MorphMany
     {
-        return $this->hasMany(Media::class);
+        return $this->morphMany(Media::class, 'entity');
     }
 }

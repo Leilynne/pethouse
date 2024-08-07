@@ -9,6 +9,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UnsuccessfulResponseResource extends JsonResource
 {
+    public function __construct(string $resource)
+    {
+        parent::__construct($resource);
+    }
+
     /**
      * Transform the resource into an array.
      *

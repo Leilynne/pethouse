@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Handlers\Animal;
 
+use App\Enums\MediaEntityType;
 use App\Models\Animal;
 use App\Models\Media;
 use Illuminate\Http\UploadedFile;
@@ -29,7 +30,8 @@ readonly class AnimalCreateHandler
 
         Media::create([
             'file_name' => $filename,
-            'animal_id' => $animal->id,
+            'entity_id' => $animal->id,
+            'entity_type' => MediaEntityType::Animal->className(),
             'primary' => true,
         ]);
 
