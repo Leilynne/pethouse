@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Handlers\Media;
 
 use App\Models\Animal;
-use App\Repositories\MediaRepository;
+use App\Repositories\MediaRepositoryInterface;
 
 readonly class MediaDeleteHandler
 {
     public function __construct(
-        private MediaRepository $mediaRepository
+        private MediaRepositoryInterface $mediaRepository
     ){
     }
 

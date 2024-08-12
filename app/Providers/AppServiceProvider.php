@@ -18,17 +18,23 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    public array $bindings = [
+        AnimalRepositoryInterface::class => AnimalRepository::class,
+        ColorRepositoryInterface::class => ColorRepository::class,
+        TagRepositoryInterface::class => TagRepository::class,
+        PostRepositoryInterface::class => PostRepository::class,
+        AdoptionRequestRepositoryInterface::class => AdoptionRequestRepository::class,
+        UserRepositoryInterface::class => UserRepository::class,
+    ];
+
     /**
      * Register any application services.
      */
     public function register(): void
     {
-//        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
-//        $this->app->bind(AnimalRepositoryInterface::class, AnimalRepository::class);
-//        $this->app->bind(ColorRepositoryInterface::class, ColorRepository::class);
-//        $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
-//        $this->app->bind(PostRepositoryInterface::class, PostRepository::class);
-//        $this->app->bind(AdoptionRequestRepositoryInterface::class, AdoptionRequestRepository::class);
+        foreach ($this->bindings as $abstract => $concrete) {
+            $this->app->bind($abstract, $concrete);
+        }
     }
 
     /**

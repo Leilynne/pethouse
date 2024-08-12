@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Handlers\Color;
 
-use App\Models\Color;
-use App\Repositories\ColorRepository;
-use Illuminate\Database\Eloquent\Collection;
+use App\DTO\ColorDTO;
+use App\Mappers\ColorMapper;
+use App\Repositories\ColorRepositoryInterface;
 
 readonly class ColorGetAllHandler
 {
     public function __construct(
-        private ColorRepository $colorRepository
+        private ColorRepositoryInterface $colorRepository
     ) {
     }
 
     /**
-     * @return  Collection<int, Color>
+     * @return  ColorDTO[]
      */
-    public function handle(): Collection
+    public function handle(): array
     {
-        return $this->colorRepository->getAllColors();
+        return ColorMapper::mapModelsToDTOArray($this->colorRepository->getAllColors());
     }
 }

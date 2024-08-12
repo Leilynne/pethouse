@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Handlers\Post;
 
-use App\Models\Post;
-use App\Repositories\PostRepository;
+use App\DTO\PostDTO;
+use App\Mappers\PostMapper;
+use App\Repositories\PostRepositoryInterface;
 
 readonly class GetPostByIdHandler
 {
     public function __construct(
-        private PostRepository $postRepository,
+        private PostRepositoryInterface $postRepository,
     ){
     }
 
-    public function handle(int $postId): Post
+    public function handle(int $postId): PostDTO
     {
-        return $this->postRepository->getPostById($postId);
+        return PostMapper::mapModelToDTO($this->postRepository->getPostById($postId, ['photos']));
     }
 }

@@ -13,5 +13,10 @@ interface PostRepositoryInterface
     public function getAllPosts(): Collection;
 
 
-    public function getPostById(int $id): Post;
+    /**
+     * @param int $id
+     * @param string[] $relations
+     * @return Post
+     */
+    public function getPostById(int $id, array $relations): Post;
 }

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Handlers\Profile;
 
-use App\Models\Animal;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
+use App\DTO\AnimalDTO;
+use App\Mappers\AnimalMapper;
+use App\Models\User;
 
 class GetUserSupervisedAnimalHandler
 {
     /**
-     * @return Collection<int, Animal>
+     * @return AnimalDTO[]
      */
-    public function handle(): Collection
+    public function handle(User $user): array
     {
-       return  Auth::user()->supervisedAnimals;
+       return  AnimalMapper::mapModelsToDTOArray($user->supervisedAnimals);
     }
 
 }

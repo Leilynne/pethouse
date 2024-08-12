@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,19 +17,20 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string $description
+ * @property string $title
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Post|null $post
- * @property-read Media|null $preview
+ * @property-read Media $preview
  * @property-read Collection<int, Media> $album
  * @property-read Collection<int, Media> $photos
- * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post query()
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereText($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
+ * @method static Builder|Post newModelQuery()
+ * @method static Builder|Post newQuery()
+ * @method static Builder|Post query()
+ * @method static Builder|Post whereCreatedAt($value)
+ * @method static Builder|Post whereId($value)
+ * @method static Builder|Post whereText($value)
+ * @method static Builder|Post whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Post extends Model

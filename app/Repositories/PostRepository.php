@@ -17,8 +17,8 @@ class PostRepository implements PostRepositoryInterface
         return Post::all();
     }
 
-    public function getPostById(int $id): Post
+    public function getPostById(int $id, array $relations = []): Post
     {
-        return Post::where(['id'=> $id])->first() ?? throw new PostNotFoundException();
+        return Post::with($relations)->where(['id'=> $id])->first() ?? throw new PostNotFoundException();
     }
 }

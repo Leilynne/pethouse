@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\AdoptionRequest;
+use App\DTO\AdoptionRequestDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin AdoptionRequest
+ * @mixin AdoptionRequestDTO
  */
 class AdoptionRequestResource extends JsonResource
 {
-
-    public function __construct(AdoptionRequest $resource)
+    public function __construct(AdoptionRequestDTO $resource)
     {
         parent::__construct($resource);
     }
@@ -28,7 +27,8 @@ class AdoptionRequestResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'animal_id' => $this->animal_id,
+            'user' => new UserResource($this->user),
+            'animal' => new AnimalResource($this->animal),
             'status' => $this->status,
         ];
     }

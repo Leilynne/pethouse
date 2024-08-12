@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace App\Handlers\Tags;
 
-use App\Repositories\TagRepository;
-use Illuminate\Database\Eloquent\Collection;
+use App\DTO\TagDTO;
+use App\Mappers\TagMapper;
+use App\Repositories\TagRepositoryInterface;
 
 readonly  class TagGetAllHandler
 {
     public function __construct(
-        private TagRepository $tagRepository,
+        private TagRepositoryInterface $tagRepository,
     ){
     }
 
-    public function handle(): Collection
+    /**
+     * @return TagDTO[]
+     */
+    public function handle(): array
     {
-        return $this->tagRepository->getAllTags();
+        return TagMapper::mapModelsToDTOArray($this->tagRepository->getAllTags());
     }
 
 }

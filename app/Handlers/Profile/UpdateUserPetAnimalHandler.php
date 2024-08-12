@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Handlers\Profile;
 
+use App\DTO\AnimalDTO;
 use App\Exceptions\AnimalNotFoundException;
 use App\Exceptions\InvalidPetUpdateRequestException;
-use App\Handlers\Animal\AnimalUpdateHandler;
-use App\Models\Animal;
-use App\Repositories\AnimalRepository;
+use App\Handlers\Animal\AnimalUpdate\AnimalUpdateCommand;
+use App\Handlers\Animal\AnimalUpdate\AnimalUpdateHandler;
+use App\Repositories\AnimalRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 readonly class UpdateUserPetAnimalHandler
 {
     public function __construct(
         private AnimalUpdateHandler $animalUpdateHandler,
-        private AnimalRepository $animalRepository,
+        private AnimalRepositoryInterface $animalRepository,
     ){
     }
 
@@ -23,14 +24,14 @@ readonly class UpdateUserPetAnimalHandler
      * @throws AnimalNotFoundException
      * @throws InvalidPetUpdateRequestException
      */
-    public function handle(array $data, int $animalId): Animal
+    public function handle(AnimalUpdateCommand $command): AnimalDTO
     {
-        $animal = $this->animalRepository->getAnimalById($animalId);
+        $animal = $this->animalRepository->getAnimalById($command->animalId);
 
-        if (Auth::user()->id != $animal->user_id){
+        if (Auth::user()->id !== $animal->user_id){
             throw new InvalidPetUpdateRequestException();
         }
-        return $this->animalUpdateHandler->handle($data, $animalId);
+        return $this->animalUpdateHandler->handle($command);
     }
 
 }

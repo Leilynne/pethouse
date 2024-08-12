@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace App\Handlers\Color;
 
-use App\Models\Color;
-use App\Repositories\ColorRepository;
+use App\DTO\ColorDTO;
+use App\Mappers\ColorMapper;
+use App\Repositories\ColorRepositoryInterface;
 
 readonly class ColorShowHandler
 {
 
     public function __construct(
-        private ColorRepository $repository
+        private ColorRepositoryInterface $repository
     ){
     }
 
 
-    public function handle(int $colorId): Color
+    public function handle(int $colorId): ColorDTO
     {
-        return $this->repository->getColorById($colorId);
+        return ColorMapper::mapModelToDTO($this->repository->getColorById($colorId));
     }
 }

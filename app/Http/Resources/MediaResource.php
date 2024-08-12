@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Media;
+use App\DTO\MediaDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Media
+ * @mixin MediaDTO
  */
 class MediaResource extends JsonResource
 {
-    public function __construct(Media $resource)
+    public function __construct(MediaDTO $resource)
     {
         parent::__construct($resource);
     }
@@ -27,7 +27,7 @@ class MediaResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'file_name' => $this->file_name,
+            'file_name' => $this->fileName,
             'primary' => $this->primary,
         ];
     }

@@ -33,7 +33,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property mixed $role
- * @property int $phone
+ * @property string $phone
  * @property string $text
  * @property-read Collection<int, Animal> $supervisedAnimals
  * @property-read Collection<int, Animal> $animals

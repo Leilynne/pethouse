@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Handlers\Color;
 
-use App\Repositories\ColorRepository;
+use App\Repositories\ColorRepositoryInterface;
 
 readonly class ColorDeleteHandler
 {
     public function __construct(
-        private ColorRepository $colorRepository
+        private ColorRepositoryInterface $colorRepository
     ) {
     }
 

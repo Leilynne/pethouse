@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Tag;
+use App\DTO\TagDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Tag
+ * @mixin TagDTO
  */
 class TagResource extends JsonResource
 {
-    public function __construct(Tag $resource)
+    public function __construct(TagDTO $resource)
     {
         parent::__construct($resource);
     }
@@ -21,7 +21,7 @@ class TagResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @return array<string, mixed>
+     * @return TagDTO[]
      */
     public function toArray(Request $request): array
     {

@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests\AdoptionRequest;
 
-use App\Enums\AdoptionStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CreateAdoptionRequest extends FormRequest
 {
@@ -17,9 +15,8 @@ class CreateAdoptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'animal_id' => ['exists:animals,id'],
-            'user_id' => ['exists:users,id'],
-            'status' => [Rule::enum(AdoptionStatus::class)],
+            'animal_id' => ['required', 'exists:animals,id'],
+            'user_id' => ['required', 'exists:users,id'],
         ];
     }
 }

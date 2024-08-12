@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Collection;
 interface AdoptionRequestRepositoryInterface
 {
     /**
+     * @param string[] $relations
      * @return Collection<int, AdoptionRequest>
      */
-    public function getAllAdoptionRequests(): Collection;
+    public function getAllAdoptionRequests(array $relations = []): Collection;
 
     public function getAdoptionRequestById(int $id): AdoptionRequest;
 

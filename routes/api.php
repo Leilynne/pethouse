@@ -1,17 +1,17 @@
 <?php
 
-use App\Http\Controllers\AdoptionRequestController\AdoptionRequestController;
-use App\Http\Controllers\AnimalController\AnimalController;
-use App\Http\Controllers\ColorController\ColorController;
-use App\Http\Controllers\MediaController\MediaController;
-use App\Http\Controllers\PostController\PostController;
-use App\Http\Controllers\ProfileController\ProfileController;
-use App\Http\Controllers\TagController\TagController;
-use App\Http\Controllers\UserController\UserController;
+use App\Http\Controllers\AdoptionRequestController;
+use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\Guest;
 use App\Http\Middleware\OptionalAuth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
 /**
  * Guest only actions
@@ -103,6 +103,7 @@ Route::middleware('auth:sanctum')->group(static function (): void {
         ->group(static function (): void {
             Route::get('/users/{user}', 'getUserById');
             Route::put('/users/{user}', 'updateUser');
+            Route::get('/users', 'index');
         })->middleware('abilities:admin');
 });
 

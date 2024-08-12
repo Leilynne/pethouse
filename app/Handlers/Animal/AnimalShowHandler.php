@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace App\Handlers\Animal;
 
+use App\DTO\AnimalDTO;
 use App\Exceptions\AnimalNotFoundException;
-use App\Models\Animal;
-use App\Repositories\AnimalRepository;
+use App\Mappers\AnimalMapper;
+use App\Repositories\AnimalRepositoryInterface;
 
 readonly class AnimalShowHandler
 {
 
     public function __construct(
-        private AnimalRepository $repository
+        private AnimalRepositoryInterface $repository
     ){
     }
 
     /**
      * @throws AnimalNotFoundException
      */
-    public function handle(int $animalId): Animal
+    public function handle(int $animalId): AnimalDTO
     {
-        return $this->repository->getAnimalById($animalId);
+        return AnimalMapper::mapModelToDTO($this->repository->getAnimalById($animalId));
     }
 }

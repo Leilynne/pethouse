@@ -9,13 +9,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 class AdoptionRequestRepository implements AdoptionRequestRepositoryInterface
 {
-
-    /**
-     * @inheritDoc
-     */
-    public function getAllAdoptionRequests(): Collection
+    public function getAllAdoptionRequests(array $relations = []): Collection
     {
-        return AdoptionRequest::all();
+        return AdoptionRequest::with($relations)->get();
     }
 
     public function getAdoptionRequestById(int $id): AdoptionRequest

@@ -4,16 +4,20 @@ declare(strict_types = 1);
 
 namespace App\Handlers\Profile;
 
-use App\Models\User;
-use Auth;
+use App\DTO\UserDTO;
+use App\Handlers\User\UserUpdate\UserUpdateCommand;
+use App\Mappers\UserMapper;
 
 readonly class UpdateProfileHandler
 {
-    public function handle(array $data): User
+    public function handle(UserUpdateCommand $command): UserDTO
     {
-        $user = Auth::user();
-        $user->update($data);
+        $command->user->update([
+            'name' => $command->name,
+            'email' => $command->email,
+            'phone' => $command->phone,
+        ]);
 
-        return $user;
+        return UserMapper::mapModelToDTO($command->user);
     }
 }

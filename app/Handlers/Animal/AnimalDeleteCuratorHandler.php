@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Handlers\Animal;
 
 use App\Exceptions\AnimalNotFoundException;
-use App\Repositories\AnimalRepository;
+use App\Repositories\AnimalRepositoryInterface;
 
 readonly class AnimalDeleteCuratorHandler
 {
     public function __construct(
-        private AnimalRepository $animalRepository,
+        private AnimalRepositoryInterface $animalRepository,
     ){
     }
 

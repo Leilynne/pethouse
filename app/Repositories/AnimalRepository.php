@@ -12,10 +12,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class AnimalRepository implements AnimalRepositoryInterface
 {
-
-    /**
-     * @inheritDoc
-     */
     public function getAllAnimals(): Collection
     {
         return Animal::all();
@@ -24,9 +20,9 @@ class AnimalRepository implements AnimalRepositoryInterface
     /**
      * @throws AnimalNotFoundException
      */
-    public function getAnimalById(int $id): Animal
+    public function getAnimalById(int $id, array $relations = []): Animal
     {
-        return Animal::where(['id'=> $id])->first() ?? throw new AnimalNotFoundException();
+        return Animal::with($relations)->where(['id'=> $id])->first() ?? throw new AnimalNotFoundException();
     }
 
     /**

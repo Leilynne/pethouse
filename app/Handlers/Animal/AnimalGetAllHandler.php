@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Handlers\Animal;
 
-use App\Models\Animal;
-use App\Repositories\AnimalRepository;
-use Illuminate\Database\Eloquent\Collection;
+use App\DTO\AnimalDTO;
+use App\Mappers\AnimalMapper;
+use App\Repositories\AnimalRepositoryInterface;
 
 readonly class AnimalGetAllHandler
 {
     public function __construct(
-        private AnimalRepository $animalRepository
+        private AnimalRepositoryInterface $animalRepository
     ) {
     }
 
     /**
-     * @return  Collection<int, Animal>
+     * @return AnimalDTO[]
      */
-    public function handle(): Collection
+    public function handle(): array
     {
-        return $this->animalRepository->getAllAnimals();
+        return AnimalMapper::mapModelsToDTOArray($this->animalRepository->getAllAnimals());
     }
 }

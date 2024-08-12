@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Post;
+use App\DTO\PostDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Post
+ * @mixin PostDTO
  */
 class PostResource extends JsonResource
 {
 
-    public function __construct(Post $resource)
+    public function __construct(PostDTO $resource)
     {
         parent::__construct($resource);
     }
@@ -29,6 +29,7 @@ class PostResource extends JsonResource
        return [
            'id' => $this->id,
            'description' => $this->description,
+           'title' => $this->title,
            'preview' => new MediaResource($this->preview),
            'photos' => MediaResource::collection($this->photos),
        ];

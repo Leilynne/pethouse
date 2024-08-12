@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -19,8 +19,8 @@ use Illuminate\Support\Carbon;
  * @property mixed $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Animal|null $animals
- * @property-read User|null $users
+ * @property-read Animal $animal
+ * @property-read User $user
  * @method static \Illuminate\Database\Eloquent\Builder|AdoptionRequest newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdoptionRequest newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdoptionRequest query()
@@ -50,12 +50,12 @@ class AdoptionRequest extends Model
         ];
     }
 
-    public function animals(): BelongsTo
+    public function animal(): BelongsTo
     {
         return $this->belongsTo(Animal::class);
     }
 
-    public function users(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

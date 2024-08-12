@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface AnimalRepositoryInterface
 {
-
     /**
      * @return Collection<int, Animal>
      */

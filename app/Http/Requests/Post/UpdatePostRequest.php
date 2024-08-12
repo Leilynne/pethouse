@@ -20,7 +20,7 @@ class UpdatePostRequest extends FormRequest
         return [
             'description' => ['required','string', 'min:3', 'max:1000'],
             'title' => ['required', 'string', 'min:3', 'max:255'],
-            'preview' => ['required', File::types(['jpg', 'jpeg', 'png'])->max('2mb')],
+            'preview' => [File::types(['jpg', 'jpeg', 'png'])->max('2mb')],
         ];
     }
 }

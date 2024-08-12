@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace App\Handlers\Post;
 
-use App\Repositories\PostRepository;
-use Illuminate\Database\Eloquent\Collection;
+use App\DTO\PostDTO;
+use App\Mappers\PostMapper;
+use App\Repositories\PostRepositoryInterface;
 
 readonly class GetAllPostsHandler
 {
     public function __construct(
-        private PostRepository $postRepository
+        private PostRepositoryInterface $postRepository
     ){
     }
 
-    public function handle(): Collection
+    /**
+     * @return PostDTO[]
+     */
+    public function handle(): array
     {
-        return $this->postRepository->getAllPosts();
+        return PostMapper::mapModelsToDTOArray($this->postRepository->getAllPosts());
     }
 
 }

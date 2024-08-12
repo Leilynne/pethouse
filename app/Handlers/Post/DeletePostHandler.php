@@ -2,13 +2,13 @@
 
 namespace App\Handlers\Post;
 
-use App\Repositories\PostRepository;
+use App\Repositories\PostRepositoryInterface;
 use Illuminate\Support\Facades\Storage;
 
 readonly class DeletePostHandler
 {
     public function __construct(
-        private PostRepository $postRepository
+        private PostRepositoryInterface $postRepository
     ){
     }
 

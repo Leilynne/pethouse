@@ -25,13 +25,13 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $name
  * @property Carbon|null $birthday
- * @property mixed $type
- * @property mixed $health
+ * @property AnimalType $type
+ * @property AnimalHealth $health
  * @property string $description
- * @property string $animal_status
+ * @property AnimalStatus $animal_status
  * @property int $user_id
  * @property string $comment
- * @property mixed $sex
+ * @property AnimalSex $sex
  * @property int $color_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at

@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\DTO\AnimalDTO;
 use App\Enums\UserRole;
-use App\Http\Resources\Admin\UserAdminResource;
-use App\Models\Animal;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Animal
+ * @mixin AnimalDTO
  */
 class AnimalResource extends JsonResource
 {
 
-    public function __construct(Animal $resource)
+    public function __construct(AnimalDTO $resource)
     {
         parent::__construct($resource);
     }
@@ -29,28 +27,23 @@ class AnimalResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $response = [
+        $isAdmin = UserRole::Admin === $request->user()?->role;
+
+        return [
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->type,
             'health' => $this->health,
             'description' => $this->description,
-            'animal_status' => $this->animal_status,
+            'animal_status' => $this->status,
             'sex'=> $this->sex,
             'color' => new ColorResource($this->color),
             'birthday' => $this->birthday,
             'preview' => new MediaResource($this->preview),
             'tags' => TagResource::collection($this->tags),
             'photos' => MediaResource::collection($this->photos),
+            'comment' => $this->when($isAdmin, $this->comment),
+            'curators' => $this->when($isAdmin, UserResource::collection($this->curators)),
         ];
-
-        /** @var User|null $user */
-        $user = $request->user();
-        if (UserRole::Admin === $user?->role) {
-            $response['comment'] = $this->comment;
-            $response['curators'] = UserAdminResource::collection($this->curators);
-        }
-
-        return $response;
     }
 }

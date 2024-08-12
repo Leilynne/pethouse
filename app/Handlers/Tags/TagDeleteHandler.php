@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Handlers\Tags;
 
-use App\Repositories\TagRepository;
+use App\Repositories\TagRepositoryInterface;
 
 readonly class TagDeleteHandler
 {
 
     public function __construct(
-       private TagRepository $repository
+       private TagRepositoryInterface $repository
     ){
     }
 

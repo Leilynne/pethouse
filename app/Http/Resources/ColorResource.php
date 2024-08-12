@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Color;
+use App\DTO\ColorDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Color
+ * @mixin ColorDTO
  */
 class ColorResource extends JsonResource
 {
-    public function __construct(Color $resource)
+    public function __construct(ColorDTO $resource)
     {
         parent::__construct($resource);
     }

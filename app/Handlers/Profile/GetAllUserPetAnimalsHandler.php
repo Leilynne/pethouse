@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Handlers\Profile;
 
-use App\Models\Animal;
+use App\DTO\AnimalDTO;
+use App\Mappers\AnimalMapper;
 use App\Models\User;
-use Illuminate\Support\Collection;
 
 class GetAllUserPetAnimalsHandler
 {
     /**
      * @param User $user
-     * @return Collection<int, Animal>
+     * @return AnimalDTO[]
      */
-    public function handle(User $user): Collection
+    public function handle(User $user): array
     {
-        return $user->animals;
+        return AnimalMapper::mapModelsToDTOArray($user->animals);
     }
 }

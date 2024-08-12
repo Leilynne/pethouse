@@ -4,14 +4,15 @@ declare(strict_types = 1);
 
 namespace App\Handlers\Profile;
 
-use App\Models\User;
+use App\DTO\UserDTO;
+use App\Mappers\UserMapper;
 use Illuminate\Support\Facades\Auth;
 
 readonly class GetProfileHandler
 {
-    public function handle(): User
+    public function handle(): UserDTO
     {
-        return Auth::user();
+        return UserMapper::mapModelToDTO(Auth::user());
     }
 
 }

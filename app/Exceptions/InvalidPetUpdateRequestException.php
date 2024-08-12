@@ -2,12 +2,12 @@
 
 namespace App\Exceptions;
 
-use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class InvalidPetUpdateRequestException extends Exception
+class InvalidPetUpdateRequestException extends HttpException
 {
     public function __construct()
     {
-        parent::__construct('This animal is not your', 403);
+        parent::__construct(403, 'This animal is not yours');
     }
 }

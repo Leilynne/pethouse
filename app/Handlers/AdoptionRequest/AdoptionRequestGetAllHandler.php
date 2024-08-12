@@ -4,21 +4,25 @@ declare(strict_types=1);
 
 namespace App\Handlers\AdoptionRequest;
 
-use App\Repositories\AdoptionRequestRepository;
-use Illuminate\Database\Eloquent\Collection;
+use App\DTO\AdoptionRequestDTO;
+use App\Mappers\AdoptionRequestMapper;
+use App\Repositories\AdoptionRequestRepositoryInterface;
 
 readonly class AdoptionRequestGetAllHandler
 {
 
     public function __construct(
-        private AdoptionRequestRepository $adoptionRequestRepository,
+        private AdoptionRequestRepositoryInterface $adoptionRequestRepository,
     ){
     }
 
-    public function handle(): Collection
+    /**
+     * @return AdoptionRequestDTO[]
+     */
+    public function handle(): array
     {
-        return $this->adoptionRequestRepository->getAllAdoptionRequests();
-
+        return AdoptionRequestMapper::mapModelsToDTOArray(
+            $this->adoptionRequestRepository->getAllAdoptionRequests(['animal', 'user'])
+        );
     }
-
 }
