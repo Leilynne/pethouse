@@ -3,8 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Tag;
-use App\Repositories\TagRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class TagRepository implements TagRepositoryInterface
 {
@@ -14,7 +13,7 @@ class TagRepository implements TagRepositoryInterface
      */
     public function getAllTags(): Collection
     {
-        return Tag::all();
+        return Tag::orderBy('name')->get();
     }
 
     public function getTagById(int $id): Tag

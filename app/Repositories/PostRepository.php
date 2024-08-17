@@ -14,7 +14,7 @@ class PostRepository implements PostRepositoryInterface
      */
     public function getAllPosts(): Collection
     {
-        return Post::all();
+        return Post::with('preview')->orderBy('created_at', 'desc')->get();
     }
 
     public function getPostById(int $id, array $relations = []): Post

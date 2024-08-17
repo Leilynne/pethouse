@@ -5,22 +5,24 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
-    /**
-     * @param int $userId
-     * @return User
-     */
+
     public function getUserById(int $userId): User
     {
         return User::where('id', $userId)->first();
     }
 
-    public function getAllUsers(): Collection
+    public function getAllUsers(int $page = 1, array $filters = []): LengthAwarePaginator
     {
-        return User::all();
-    }
+        $builder = User::orderBy('name');
 
+        if (isset($filters['name'])) {
+            $builder->where('name', 'ILIKE', '%'.$filters['name'].'%');
+        }
+
+        return $builder->paginate(24, ['*'], 'page', $page);
+    }
 }

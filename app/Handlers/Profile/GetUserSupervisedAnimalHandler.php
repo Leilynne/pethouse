@@ -15,7 +15,7 @@ class GetUserSupervisedAnimalHandler
      */
     public function handle(User $user): array
     {
-       return  AnimalMapper::mapModelsToDTOArray($user->supervisedAnimals);
+       return  AnimalMapper::mapModelsToDTOArray($user->supervisedAnimals()->with(['preview', 'tags', 'color'])->get());
     }
 
 }

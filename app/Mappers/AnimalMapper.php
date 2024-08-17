@@ -13,7 +13,7 @@ readonly class AnimalMapper
     public static function mapModelToDTO(Animal $entity): AnimalDTO
     {
         if ($entity->relationLoaded('photos')) {
-            $photos = $entity->photos;
+            $photos = MediaMapper::mapModelsToDTOArray($entity->photos);
         } else {
             $photos = [];
         }
@@ -30,7 +30,7 @@ readonly class AnimalMapper
 
 
         if ($entity->relationLoaded('curators')) {
-            $curators = $entity->curators;
+            $curators = UserMapper::mapModelsToDTOArray($entity->curators);
         } else {
             $curators = [];
         }
@@ -47,18 +47,18 @@ readonly class AnimalMapper
             $entity->birthday,
             MediaMapper::mapModelToDTO($entity->preview),
             TagMapper::mapModelsToDTOArray($entity->tags),
-            MediaMapper::mapModelsToDTOArray($photos),
+            $photos,
             $user,
-            UserMapper::mapModelsToDTOArray($curators),
+            $curators,
             $entity->comment,
         );
     }
 
     /**
-     * @param Collection<int, Animal> $entities
+     * @param Collection<int, Animal>|Animal[] $entities
      * @return AnimalDTO[]
      */
-    public static function mapModelsToDTOArray(Collection $entities): array
+    public static function mapModelsToDTOArray(Collection|array $entities): array
     {
         $result = [];
         foreach ($entities as $entity) {

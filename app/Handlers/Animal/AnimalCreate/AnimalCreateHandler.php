@@ -9,10 +9,16 @@ use App\Enums\MediaEntityType;
 use App\Mappers\AnimalMapper;
 use App\Models\Animal;
 use App\Models\Media;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Uid\Ulid;
 
 readonly class AnimalCreateHandler
 {
+    public function __construct(
+        private Filesystem $filesystem,
+    ) {
+    }
+
     /**
      * @param AnimalCreateCommand $command
      * @return AnimalDTO
@@ -39,7 +45,7 @@ readonly class AnimalCreateHandler
 
         $ulid = new Ulid();
         $filename = $ulid->toString() . '.' . $command->preview->extension();
-        \Storage::disk('public')->putFileAs('animals', $command->preview, $filename);
+        $this->filesystem->putFileAs('animals', $command->preview, $filename);
 
         Media::create([
             'file_name' => $filename,

@@ -3,8 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Color;
-use App\Repositories\ColorRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class ColorRepository implements ColorRepositoryInterface
 {
@@ -14,7 +13,7 @@ class ColorRepository implements ColorRepositoryInterface
      */
     public function getAllColors(): Collection
     {
-        return Color::all();
+        return Color::orderBy('name')->get();
     }
 
     public function getColorById(int $id): Color

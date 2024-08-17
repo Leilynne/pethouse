@@ -22,6 +22,6 @@ readonly class AnimalShowHandler
      */
     public function handle(int $animalId): AnimalDTO
     {
-        return AnimalMapper::mapModelToDTO($this->repository->getAnimalById($animalId));
+        return AnimalMapper::mapModelToDTO($this->repository->getAnimalById($animalId, ['photos', 'owner', 'curators']));
     }
 }

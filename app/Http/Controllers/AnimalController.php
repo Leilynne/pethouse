@@ -4,27 +4,32 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\AnimalAge;
 use App\Enums\AnimalHealth;
 use App\Enums\AnimalSex;
 use App\Enums\AnimalStatus;
 use App\Enums\AnimalType;
+use App\Enums\UserRole;
 use App\Exceptions\AnimalNotFoundException;
 use App\Handlers\Animal\AnimalAddCuratorHandler;
 use App\Handlers\Animal\AnimalCreate\AnimalCreateCommand;
 use App\Handlers\Animal\AnimalCreate\AnimalCreateHandler;
 use App\Handlers\Animal\AnimalDeleteCuratorHandler;
 use App\Handlers\Animal\AnimalDeleteHandler;
-use App\Handlers\Animal\AnimalGetAllHandler;
+use App\Handlers\Animal\AnimalGetCollection\AnimalGetAllHandler;
+use App\Handlers\Animal\AnimalGetCollection\AnimalGetCollectionCommand;
 use App\Handlers\Animal\AnimalShowHandler;
 use App\Handlers\Animal\AnimalUpdate\AnimalUpdateCommand;
 use App\Handlers\Animal\AnimalUpdate\AnimalUpdateHandler;
+use App\Http\Requests\Animal\AnimalPaginatorRequest;
 use App\Http\Requests\Animal\CreateAnimalRequest;
 use App\Http\Requests\Animal\UpdateAnimalRequest;
+use App\Http\Resources\AnimalCollectionResource;
 use App\Http\Resources\AnimalResource;
 use App\Http\Resources\SuccessfulResponseResource;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\isFalse;
 
 readonly class AnimalController
 {
@@ -42,10 +47,25 @@ readonly class AnimalController
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(AnimalPaginatorRequest $request): AnimalCollectionResource
     {
-        return AnimalResource::collection(
-            $this->animalGetAllHandler->handle()
+        $data = $request->validated();
+        $userRole = Auth::user()->role;
+
+        return new AnimalCollectionResource(
+            $this->animalGetAllHandler->handle(
+                new AnimalGetCollectionCommand(
+                    (int) ($data['page'] ?? 1),
+                    isset($data['color']) ? (int) $data['color'] : null,
+                    isset($data['type']) ? AnimalType::from($data['type']) : null,
+                    isset($data['sex']) ? AnimalSex::from($data['sex']) : null,
+                    isset($data['health']) ? AnimalHealth::from($data['health']) : null,
+                     $userRole,
+                    isset($data['status']) ? AnimalStatus::from($data['status']) : null,
+                     $data['tags'] ?? [],
+                    isset($data['age']) ? AnimalAge::from($data['age']) : null,
+                )
+            )
         );
     }
 

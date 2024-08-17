@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface UserRepositoryInterface
 {
@@ -14,9 +14,9 @@ interface UserRepositoryInterface
     public function getUserById(int $userId): User;
 
     /**
-     * @return Collection<int, User>
+     *
      */
-    public function getAllUsers(): Collection;
+    public function getAllUsers(int $page = 1, array $filters = []): LengthAwarePaginator;
 
 
 }

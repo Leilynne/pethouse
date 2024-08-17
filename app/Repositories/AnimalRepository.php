@@ -8,13 +8,41 @@ use App\Enums\AnimalStatus;
 use App\Enums\AnimalType;
 use App\Exceptions\AnimalNotFoundException;
 use App\Models\Animal;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class AnimalRepository implements AnimalRepositoryInterface
 {
-    public function getAllAnimals(): Collection
+    public function getAllAnimals(int $page = 1, array $filters = []): LengthAwarePaginator
     {
-        return Animal::all();
+        $builder = Animal::with(['preview', 'color', 'tags']);
+
+        if (isset($filters['color'])) {
+            $builder->where('color_id', $filters['color']);
+        }
+        if (isset($filters['type'])) {
+            $builder->where('type', $filters['type']);
+        }
+        if (isset($filters['sex'])) {
+            $builder->where('sex', $filters['sex']);
+        }
+        if (isset($filters['health'])) {
+            $builder->where('health', $filters['health']);
+        }
+        if (isset($filters['status'])) {
+            $builder->whereIn('animal_status', $filters['status']);
+        }
+        if (isset($filters['birthdayBefore'])) {
+            $builder->where('birthday', '<=', $filters['birthdayBefore']);
+        }
+        if (isset($filters['birthdayAfter'])) {
+            $builder->where('birthday', '>=', $filters['birthdayAfter']);
+        }
+        foreach ($filters['tags'] ?? [] as $tag) {
+            $builder->whereRelation('tags', 'tags.id', '=', $tag);
+        }
+
+        return $builder->paginate(24, ['*'], 'page', $page);
     }
 
     /**
@@ -22,7 +50,7 @@ class AnimalRepository implements AnimalRepositoryInterface
      */
     public function getAnimalById(int $id, array $relations = []): Animal
     {
-        return Animal::with($relations)->where(['id'=> $id])->first() ?? throw new AnimalNotFoundException();
+        return Animal::with($relations)->where(['id' => $id])->first() ?? throw new AnimalNotFoundException();
     }
 
     /**
@@ -62,6 +90,6 @@ class AnimalRepository implements AnimalRepositoryInterface
      */
     public function getAnimalsByUserId(int $userId): Collection
     {
-        return Animal::where(['user_id'=> $userId])->get();
+        return Animal::where(['user_id' => $userId])->get();
     }
 }

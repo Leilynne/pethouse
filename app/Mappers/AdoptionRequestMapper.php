@@ -21,10 +21,10 @@ readonly class AdoptionRequestMapper
     }
 
     /**
-     * @param Collection<int, AdoptionRequest> $entities
+     * @param Collection|array $entities
      * @return AdoptionRequestDTO[]
      */
-    public static function mapModelsToDTOArray(Collection $entities): array
+    public static function mapModelsToDTOArray(Collection|array $entities): array
     {
         $result = [];
         foreach ($entities as $entity) {

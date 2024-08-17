@@ -8,6 +8,8 @@ use App\Repositories\AnimalRepository;
 use App\Repositories\AnimalRepositoryInterface;
 use App\Repositories\ColorRepository;
 use App\Repositories\ColorRepositoryInterface;
+use App\Repositories\MediaRepository;
+use App\Repositories\MediaRepositoryInterface;
 use App\Repositories\PostRepository;
 use App\Repositories\PostRepositoryInterface;
 use App\Repositories\TagRepository;
@@ -25,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         PostRepositoryInterface::class => PostRepository::class,
         AdoptionRequestRepositoryInterface::class => AdoptionRequestRepository::class,
         UserRepositoryInterface::class => UserRepository::class,
+        MediaRepositoryInterface::class => MediaRepository::class,
     ];
 
     /**

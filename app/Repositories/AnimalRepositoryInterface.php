@@ -7,17 +7,19 @@ use App\Enums\AnimalSex;
 use App\Enums\AnimalStatus;
 use App\Enums\AnimalType;
 use App\Models\Animal;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 interface AnimalRepositoryInterface
 {
     /**
-     * @return Collection<int, Animal>
+     * @param array<string, mixed> $filters
+     * @return LengthAwarePaginator<Animal>
      */
-    public function getAllAnimals(): Collection;
+    public function getAllAnimals(int $page = 1, array $filters = []): LengthAwarePaginator;
 
 
-    public function getAnimalById(int $id): Animal;
+    public function getAnimalById(int $id, array $relations = []): Animal;
 
 
     /**

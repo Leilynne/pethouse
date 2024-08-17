@@ -6,12 +6,13 @@ namespace App\Handlers\Animal;
 
 use App\Exceptions\AnimalNotFoundException;
 use App\Repositories\AnimalRepositoryInterface;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 readonly class AnimalDeleteHandler
 {
     public function __construct(
-        private AnimalRepositoryInterface $animalRepository
+        private AnimalRepositoryInterface $animalRepository,
+        private Filesystem $filesystem,
     ) {
     }
 
@@ -26,7 +27,7 @@ readonly class AnimalDeleteHandler
         $animal->delete();
 
         foreach ($album as $item) {
-            Storage::disk('public')->delete('animals/' . $item->file_name);
+            $this->filesystem->delete('animals/' . $item->file_name);
         }
     }
 }

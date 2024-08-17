@@ -7,12 +7,14 @@ namespace App\Handlers\Post\PostUpdate;
 use App\DTO\PostDTO;
 use App\Mappers\PostMapper;
 use App\Repositories\PostRepositoryInterface;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Uid\Ulid;
 
 readonly class UpdatePostHandler
 {
     public function __construct(
         private PostRepositoryInterface $postRepository,
+        private Filesystem $filesystem,
     ){
     }
 
@@ -27,9 +29,9 @@ readonly class UpdatePostHandler
         if (isset($command->file)) {
             $ulid = new Ulid();
             $filename = $ulid->toString() . '.' . $command->file->extension();
-            \Storage::disk('public')->putFileAs('posts', $command->file, $filename);
+            $this->filesystem->putFileAs('posts', $command->file, $filename);
 
-            \Storage::disk('public')->delete('posts/' . $post->preview->file_name);
+            $this->filesystem->delete('posts/' . $post->preview->file_name);
 
             $post->preview->update([
                 'file_name' => $filename,

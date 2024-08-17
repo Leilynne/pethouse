@@ -3,12 +3,13 @@
 namespace App\Handlers\Post;
 
 use App\Repositories\PostRepositoryInterface;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 readonly class DeletePostHandler
 {
     public function __construct(
-        private PostRepositoryInterface $postRepository
+        private PostRepositoryInterface $postRepository,
+        private Filesystem $filesystem,
     ){
     }
 
@@ -20,7 +21,7 @@ readonly class DeletePostHandler
         $post->delete();
 
         foreach ($album as $item) {
-            Storage::disk('public')->delete('posts/' . $item->file_name);
+            $this->filesystem->delete('posts/' . $item->file_name);
         }
     }
 

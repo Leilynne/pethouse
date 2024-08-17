@@ -20,7 +20,4 @@ enum AnimalStatus: string
             self::Household => 'Домашний',
         };
     }
-
-
-
 }

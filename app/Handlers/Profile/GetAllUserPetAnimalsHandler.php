@@ -16,6 +16,6 @@ class GetAllUserPetAnimalsHandler
      */
     public function handle(User $user): array
     {
-        return AnimalMapper::mapModelsToDTOArray($user->animals);
+        return AnimalMapper::mapModelsToDTOArray($user->animals()->with(['preview', 'color', 'tags'])->get());
     }
 }

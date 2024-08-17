@@ -6,14 +6,15 @@ namespace App\Handlers\Animal\AnimalUpdate;
 
 use App\DTO\AnimalDTO;
 use App\Mappers\AnimalMapper;
-use App\Repositories\AnimalRepository;
 use App\Repositories\AnimalRepositoryInterface;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Uid\Ulid;
 
 readonly class AnimalUpdateHandler
 {
     public function __construct(
-        private AnimalRepositoryInterface $animalRepository
+        private AnimalRepositoryInterface $animalRepository,
+        private Filesystem $filesystem,
     ) {
     }
 
@@ -42,9 +43,9 @@ readonly class AnimalUpdateHandler
 
             $ulid = new Ulid();
             $filename = $ulid->toString() . '.' . $command->preview->extension();
-            \Storage::disk('public')->putFileAs('animals', $command->preview, $filename);
+            $this->filesystem->putFileAs('animals', $command->preview, $filename);
 
-            \Storage::disk('public')->delete('animals/' . $animal->preview->file_name);
+            $this->filesystem->delete('animals/' . $animal->preview->file_name);
 
             $animal->preview->update([
                 'file_name' => $filename,

@@ -4,14 +4,20 @@ namespace App\Repositories;
 
 use App\Enums\AdoptionStatus;
 use App\Models\AdoptionRequest;
-use App\Repositories\AdoptionRequestRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class AdoptionRequestRepository implements AdoptionRequestRepositoryInterface
 {
-    public function getAllAdoptionRequests(array $relations = []): Collection
+    public function getAllAdoptionRequests(int $page = 1, array $filters = [], array $relations = []): LengthAwarePaginator
     {
-        return AdoptionRequest::with($relations)->get();
+        $builder = AdoptionRequest::with($relations)->orderBy('created_at', 'desc');
+
+        if (isset($filters['status'])) {
+            $builder->where('status', $filters['status']);
+        }
+
+        return $builder->paginate(10, ['*'], 'page', $page);
     }
 
     public function getAdoptionRequestById(int $id): AdoptionRequest

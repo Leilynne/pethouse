@@ -6,12 +6,14 @@ namespace App\Handlers\Media;
 
 use App\Models\Animal;
 use App\Repositories\MediaRepositoryInterface;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 readonly class MediaDeleteHandler
 {
     public function __construct(
-        private MediaRepositoryInterface $mediaRepository
-    ){
+        private MediaRepositoryInterface $mediaRepository,
+        private Filesystem $filesystem,
+    ) {
     }
 
     public function handle(int $mediaId): void
@@ -22,7 +24,7 @@ readonly class MediaDeleteHandler
         } else {
             $folder = 'posts/';
         }
-        \Storage::disk('public')->delete($folder.$photo->file_name);
+        $this->filesystem->delete($folder . $photo->file_name);
 
         $photo->delete();
     }

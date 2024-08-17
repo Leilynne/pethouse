@@ -7,15 +7,21 @@ namespace App\Handlers\Media\MediaCreate;
 use App\DTO\MediaDTO;
 use App\Mappers\MediaMapper;
 use App\Models\Media;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Uid\Ulid;
 
-class MediaCreateHandler
+readonly class MediaCreateHandler
 {
+    public function __construct(
+        private Filesystem $filesystem,
+    ) {
+    }
+
     public function handle(MediaCreateCommand $command): MediaDTO
     {
         $ulid = new Ulid();
         $filename = $ulid->toString() . '.' . $command->file->extension();
-        \Storage::disk('public')->putFileAs($command->entityType->value, $command->file, $filename);
+        $this->filesystem->putFileAs($command->entityType->value, $command->file, $filename);
 
         /**
          * @var Media $photo

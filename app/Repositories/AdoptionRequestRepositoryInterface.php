@@ -4,15 +4,18 @@ namespace App\Repositories;
 
 use App\Enums\AdoptionStatus;
 use App\Models\AdoptionRequest;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 interface AdoptionRequestRepositoryInterface
 {
     /**
+     * @param int $page
+     * @param array $filters
      * @param string[] $relations
-     * @return Collection<int, AdoptionRequest>
+     * @return LengthAwarePaginator
      */
-    public function getAllAdoptionRequests(array $relations = []): Collection;
+    public function getAllAdoptionRequests(int $page = 1, array $filters = [], array $relations = []): LengthAwarePaginator;
 
     public function getAdoptionRequestById(int $id): AdoptionRequest;
 
