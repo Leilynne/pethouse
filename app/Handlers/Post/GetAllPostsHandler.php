@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Handlers\Post;
 
-use App\DTO\PostDTO;
 use App\Mappers\PostMapper;
 use App\Repositories\PostRepositoryInterface;
 
@@ -16,11 +15,19 @@ readonly class GetAllPostsHandler
     }
 
     /**
-     * @return PostDTO[]
+     * @param PostGetCollectionCommand $command
+     * @return PostGetCollectionResponse
      */
-    public function handle(): array
+    public function handle(PostGetCollectionCommand $command): PostGetCollectionResponse
     {
-        return PostMapper::mapModelsToDTOArray($this->postRepository->getAllPosts());
+        $paginator = $this->postRepository->getAllPosts($command->page);
+
+        return new PostGetCollectionResponse(
+            PostMapper::mapModelsToDTOArray($paginator->items()),
+            $paginator->total(),
+            $paginator->lastPage(),
+            $paginator->currentPage(),
+        );
     }
 
 }

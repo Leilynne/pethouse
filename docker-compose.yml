@@ -48,6 +48,18 @@ services:
                 - '${DB_USERNAME}'
             retries: 3
             timeout: 5s
+    vue:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        ports:
+            - '8080:8080'
+        volumes:
+            - './frontend:/app'
+        networks:
+            - sail
+        user: '1000:1000'
+        command: npm run serve
 networks:
     sail:
         driver: bridge

@@ -55,6 +55,7 @@ readonly class AnimalGetAllHandler
             AnimalMapper::mapModelsToDTOArray($paginator->items()),
             $paginator->total(),
             $paginator->lastPage(),
+            $paginator->currentPage(),
         );
     }
 }

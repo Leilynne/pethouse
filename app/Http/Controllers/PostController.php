@@ -9,13 +9,15 @@ use App\Handlers\Post\GetAllPostsHandler;
 use App\Handlers\Post\GetPostByIdHandler;
 use App\Handlers\Post\PostCreate\CreatePostHandler;
 use App\Handlers\Post\PostCreate\PostCreateCommand;
+use App\Handlers\Post\PostGetCollectionCommand;
 use App\Handlers\Post\PostUpdate\PostUpdateCommand;
 use App\Handlers\Post\PostUpdate\UpdatePostHandler;
 use App\Http\Requests\Post\CreatePostRequest;
+use App\Http\Requests\Post\PostPaginatorRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
+use App\Http\Resources\PostCollectionResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\SuccessfulResponseResource;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 readonly class PostController
 {
@@ -29,9 +31,15 @@ readonly class PostController
     ){
     }
 
-    public function index(): AnonymousResourceCollection
+    public function index(PostPaginatorRequest $request): PostCollectionResource
     {
-        return PostResource::collection($this->getAllPostsHandler->handle());
+        $data = $request->validated();
+
+        return new PostCollectionResource ($this->getAllPostsHandler->handle(
+            new PostGetCollectionCommand(
+                (int) ($data['page'] ?? 1),
+            )
+        ));
 
     }
 

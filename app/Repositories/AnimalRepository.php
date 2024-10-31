@@ -42,7 +42,7 @@ class AnimalRepository implements AnimalRepositoryInterface
             $builder->whereRelation('tags', 'tags.id', '=', $tag);
         }
 
-        return $builder->paginate(24, ['*'], 'page', $page);
+        return $builder->paginate(6, ['*'], 'page', $page);
     }
 
     /**

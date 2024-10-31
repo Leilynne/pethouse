@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\User;
 
-use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CreateUserRequest extends FormRequest
 {
@@ -20,7 +18,7 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', 'min:3'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
             'phone' => ['required', 'string', 'regex:/^\d{10,11}$/'],
             'text' => ['string', 'min:3'],

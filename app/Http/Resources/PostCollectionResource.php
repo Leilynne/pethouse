@@ -2,23 +2,23 @@
 
 namespace App\Http\Resources;
 
-use App\Handlers\Animal\AnimalGetCollection\AnimalGetCollectionResponse;
+use App\Handlers\Post\PostGetCollectionResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class AnimalCollectionResource extends ResourceCollection
+class PostCollectionResource extends ResourceCollection
 {
     private int $total;
     private int $lastPage;
     private int $currentPage;
 
-    public function __construct(AnimalGetCollectionResponse $resource)
+    public function __construct(PostGetCollectionResponse $resource)
     {
         $this->total = $resource->total;
         $this->lastPage = $resource->lastPage;
         $this->currentPage = $resource->currentPage;
 
-        parent::__construct($resource->animals);
+        parent::__construct($resource->post);
     }
 
     /**
@@ -27,7 +27,7 @@ class AnimalCollectionResource extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => AnimalResource::collection($this->resource),
+            'data' => PostResource::collection($this->resource),
             'pagination' => [
                 'total' => $this->total,
                 'lastPage' => $this->lastPage,

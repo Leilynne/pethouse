@@ -28,10 +28,10 @@ readonly class PostMapper
     }
 
     /**
-     * @param Collection<int, Post> $entities
+     * @param Collection<int, Post>|Post[] $entities
      * @return PostDTO[]
      */
-    public static function mapModelsToDTOArray(Collection $entities): array
+    public static function mapModelsToDTOArray(Collection|array $entities): array
     {
         $result = [];
         foreach ($entities as $entity) {

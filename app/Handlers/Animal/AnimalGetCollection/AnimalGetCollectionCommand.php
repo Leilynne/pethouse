@@ -17,7 +17,7 @@ readonly class AnimalGetCollectionCommand
         public ?AnimalType $type,
         public ?AnimalSex $sex,
         public ?AnimalHealth $health,
-        public UserRole $userRole,
+        public ?UserRole $userRole,
         public ?AnimalStatus $status,
         public array $tags,
         public ?AnimalAge $age,

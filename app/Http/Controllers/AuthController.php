@@ -39,9 +39,7 @@ readonly class AuthController
         try {
             $resource = new TokenResource($this->userLoginHandler->handle($data));
         } catch (InvalidCredentialsException) {
-            $resource = (new UnsuccessfulResponseResource('Invalid credentials'))
-                ->response()
-                ->setStatusCode(Response::HTTP_UNAUTHORIZED);
+            $resource = (new UnsuccessfulResponseResource('Invalid credentials')); // TODO error
         }
 
         return $resource;

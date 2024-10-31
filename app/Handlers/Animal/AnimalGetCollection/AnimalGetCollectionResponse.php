@@ -13,6 +13,7 @@ readonly class AnimalGetCollectionResponse
         public array $animals,
         public int $total,
         public int $lastPage,
+        public int $currentPage,
     ) {
     }
 }

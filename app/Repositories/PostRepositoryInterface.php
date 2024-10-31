@@ -3,14 +3,14 @@
 namespace App\Repositories;
 
 use App\Models\Post;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface PostRepositoryInterface
 {
     /**
-     * @return Collection<int, Post>
-     **/
-    public function getAllPosts(): Collection;
+     * @return LengthAwarePaginator
+     */
+    public function getAllPosts(): LengthAwarePaginator;
 
 
     /**

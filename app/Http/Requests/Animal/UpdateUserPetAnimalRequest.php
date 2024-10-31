@@ -27,7 +27,7 @@ class UpdateUserPetAnimalRequest extends FormRequest
             'health' => ['required', Rule::enum(AnimalHealth::class)],
             'color_id' => ['required', 'exists:colors,id'],
             'description' => ['required', 'string', 'max:1000', 'min:1'],
-            'preview' => ['required', File::types(['jpg', 'jpeg', 'png'])->max('2mb')],
+            'preview' => [File::types(['jpg', 'jpeg', 'png'])->max('2mb')],
         ];
     }
 }

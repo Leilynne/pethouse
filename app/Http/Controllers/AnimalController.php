@@ -29,7 +29,6 @@ use App\Http\Resources\AnimalResource;
 use App\Http\Resources\SuccessfulResponseResource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use function PHPUnit\Framework\isFalse;
 
 readonly class AnimalController
 {
@@ -50,7 +49,7 @@ readonly class AnimalController
     public function index(AnimalPaginatorRequest $request): AnimalCollectionResource
     {
         $data = $request->validated();
-        $userRole = Auth::user()->role;
+        $userRole = Auth::user()?->role;
 
         return new AnimalCollectionResource(
             $this->animalGetAllHandler->handle(
